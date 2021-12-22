@@ -1,6 +1,5 @@
 package com.company;
 
-import java.awt.MouseInfo;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -17,8 +16,10 @@ public class Okienko implements MouseListener, KeyListener {
     JButton escapebutton = new JButton("zlap_mnie");
     JButton cancelbutton = new JButton("Cancel");
 
+    Kanwa kanwa;
     Okienko() {
 
+        kanwa = new Kanwa();
 
         escapebutton.setBounds(125, 200, 100, 25);
         escapebutton.addMouseListener(this);
@@ -33,15 +34,24 @@ public class Okienko implements MouseListener, KeyListener {
         frame.setSize(500, 500);
         frame.setLayout(null);
         frame.setVisible(true);
+        frame.setFocusable(true);
     }
-
+//
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getSource() == cancelbutton) {
             escapebutton.setBounds(125, 200, 100, 25);
         }
-        double x = MouseInfo.getPointerInfo().getLocation().getX();
-        double y = MouseInfo.getPointerInfo().getLocation().getY();
+            int x = e.getX();
+            int y = e.getY();
+            Graphics graphics = c.getGraphics();
+            if (kanwa.kwadrat) {
+                graphics.drawRect(x, y, 200, 200);
+            }
+            else {
+                graphics.drawOval(x, y, 150, 150);
+            }
+
     }
 
     @Override
@@ -56,9 +66,12 @@ public class Okienko implements MouseListener, KeyListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (e.getSource() == escapebutton) {
+    if(e.getSource() == escapebutton) {
+        int width = escapebutton.getWidth();
+        if (e.getX() > width / 8) {
             escapebutton.setBounds((int) (Math.random() * (400)), (int) (Math.random() * (400)), 100, 25);
         }
+    }
     }
 
     @Override
@@ -73,7 +86,6 @@ public class Okienko implements MouseListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
     }
 
     @Override
